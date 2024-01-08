@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    </head>
+    <style>
+   input {
+   display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+    textarea {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+  </style>
+    <header>
+    <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#">
+      {% if request.user.is_authenticated %}
+        Добро пожаловать, {{ request.user.username }}
+  {% endif %}
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+      </li>
+        {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "logout" %}">Выйти из аккаунта</a>
+            </li>
+                    <li class="nav-item">
+            <a  class="nav-link"  href="{% url 'create_request' %}">Создать заявку</a>
+        </li>
+        {% else %}
+            <li class="nav-item">
+                <a  class="nav-link" href="{% url "login" %}">Войти в аккаунт</a>
+            </li>
+        {% endif %}
+    {% if request.user.is_staff %}
+        <li class="nav-item">
+            <a  class="nav-link" href="{% url "view_requests" %}">Все заявки</a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link" href="{% url "view_closed_requests" %}">Все закрытые заявки</a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link" href="{% url "closed_requests_report" %}">Закрытые заявки за 30 дней</a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link" href="{% url "view_engineer_requests" %}">Заявки в работе</a>
+        </li>
+    {% endif %}
+    </ul>
+  </div>
+</nav>
+    </div>
+    <p></p>
+    </header>
+
+    <body>
+        <div class="container">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </body>
+</html>

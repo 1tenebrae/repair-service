@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Список заявок</h2>
+    <p></p>
+          <div class="row w-100 m-0 g-2">
+  {% for repair_request in repair_requests %}
+      <div class="col-6 col-md-4">
+    <div class="card flex-grow-1">
+      <div class="card-body">
+        <h5 class="card-title text-truncate">{{ repair_request.title| truncatewords:6 }}</h5>
+        <p class="card-text text-truncate">{{ repair_request.description| truncatewords:6 }}</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Статус: {{ repair_request.status }}</li>
+          {% if repair_request.engineer %}
+        <li class="list-group-item">Инженер: {{ repair_request.engineer.username }}</li>
+          {% endif %}
+        <li class="list-group-item">Создано: {{ repair_request.created_at }}</li>
+      </ul>
+      <div class="card-body">
+          {% if not repair_request.engineer and not repair_request.status == 'Заявка закрыта' and request.user.is_staff %}
+        <a href="{% url 'take_request' repair_request.id %}" class="btn btn-secondary mb-1">Взять заявку</a>
+          {% endif %}
+      {% if not repair_request.status == 'Заявка закрыта' and request.user.is_staff %}
+        <a href="{% url 'close_request' repair_request.id %}" class="btn btn-secondary mb-1">Закрыть заявку</a>
+      {% endif %}
+        <a href="{% url 'view_solution' repair_request.id %}" class="btn btn-secondary mb-1">Просмотреть</a>
+      </div>
+    </div>
+      <p></p>
+            </div>
+  {% endfor %}
+          </div>
+{% endblock %}
+
+

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Просмотр заявки</h2>
+    <p></p>
+    <div class="card">
+  <div class="card-header">
+    {{ repair_request.title }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ repair_request.description }}</h5>
+    <p class="card-text">Инженер: {{ repair_request.engineer }}</p>
+    <p class="card-text">Статус: {{ repair_request.status }}</p>
+    <p class="card-text">Комментарий: {{ repair_request.solution }}</p>
+      {% if request.user.is_staff and not repair_request.status == 'Заявка закрыта' %}
+        <a class="btn btn-secondary" href="{% url 'close_request' repair_request.id %}">Закрыть заявку</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Отчет о закрытых заявках (за последние 30 дней)</h2>
+    <p></p>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID оборудования</th>
+      <th scope="col">Статус</th>
+        <th scope="col">Просмотреть заявку</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for request in closed_requests %}
+    <tr>
+      <td>{{ request.title }}</td>
+      <td>{{ request.status }}</td>
+        <td> <a href="{% url 'view_solution' request.id %}" class="btn btn-secondary">Просмотреть</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
